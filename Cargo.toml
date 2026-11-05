@@ -1,0 +1,46 @@
+[package]
+name = "oneocr-pdf-rust"
+version = "0.1.0"
+edition = "2021"
+authors = ["OneOCR Team"]
+description = "High-performance Arabic Searchable PDF Generator using OneOCR and fltk-rs"
+
+[dependencies]
+# GUI Framework
+fltk = { version = "1.4", features = ["fltk-bundled"] }
+fltk-theme = "0.7"
+
+# PDF Rasterization & Rendering (Google PDFium dynamic runtime binding)
+# Note: Do NOT use features = ["static"] as it causes LNK2019/LNK1120 unresolved symbol errors on MSVC link.exe
+pdfium-render = "0.8"
+
+# Image Processing
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+
+# Dynamic DLL FFI Loading for OneOCR C API
+libloading = "0.8"
+
+# Arabic Typography, Complex Shaping & BiDi
+rustybuzz = "0.18"           # Pure-Rust HarfBuzz shaping engine
+unicode-bidi = "0.3"         # Bi-directional text algorithm (UAX #9)
+unicode-normalization = "0.1"# NFKC canonical decomposition & composition
+regex = "1.10"
+
+# High-Performance Searchable PDF Generation
+pdf-writer = "0.12"
+
+# Windows System Utilities & File Paths
+dirs = "5.0"
+
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[build-dependencies]
+winres = "0.1"

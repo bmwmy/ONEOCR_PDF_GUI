@@ -1,0 +1,1 @@
+Place app.ico in this folder for Windows executable icon embedding.
